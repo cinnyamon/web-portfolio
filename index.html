@@ -3,7 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>
+      Clownussy portfolio website with Auto-fetching content from Tumblr.
+    </title>
+
+    <!-- favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
+
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/dropdown-menu.css" />
     <link rel="stylesheet" href="./styles/header.css" />
@@ -106,6 +129,9 @@
       <section class="title-box">
         <h1 class="site-title">@unknwn</h1>
       </section>
+
+      <!-- <input id="usemocks" value="true" type="checkbox" /> -->
+
       <section class="info-gallery-section">
         <div class="left-side-section">
           <div class="about-section">
@@ -121,37 +147,39 @@
           </div>
           <div class="refresh-section">
             <h4>refresh images:</h4>
-            <svg
-              width="800px"
-              height="800px"
-              viewBox="0 0 32 32"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
-            >
-              <g
-                id="Page-1"
-                stroke="none"
-                stroke-width="1"
-                fill="none"
-                fill-rule="evenodd"
-                sketch:type="MSPage"
+            <button class="refresh-button">
+              <svg
+                width="800px"
+                height="800px"
+                viewBox="0 0 32 32"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
               >
                 <g
-                  id="Icon-Set"
-                  sketch:type="MSLayerGroup"
-                  transform="translate(-152.000000, -1139.000000)"
-                  fill="white"
+                  id="Page-1"
+                  stroke="none"
+                  stroke-width="1"
+                  fill="none"
+                  fill-rule="evenodd"
+                  sketch:type="MSPage"
                 >
-                  <path
-                    d="M175.74,1141 L183,1141 C183.552,1141 184,1140.55 184,1140 C184,1139.45 183.552,1139 183,1139 L173,1139 C172.879,1139 172,1139 172,1140 L172,1150 C172,1150.55 172.448,1151 173,1151 C173.552,1151 174,1150.55 174,1150 L174,1142.36 C178.728,1144.61 182,1149.42 182,1155 C182,1162.73 175.732,1169 168,1169 C160.268,1169 154,1162.73 154,1155 C154,1147.95 159.218,1142.13 166,1141.16 L166,1139.14 C158.109,1140.13 152,1146.84 152,1155 C152,1163.84 159.164,1171 168,1171 C176.836,1171 184,1163.84 184,1155 C184,1148.97 180.664,1143.73 175.74,1141"
-                    id="refresh"
-                    sketch:type="MSShapeGroup"
-                  ></path>
+                  <g
+                    id="Icon-Set"
+                    sketch:type="MSLayerGroup"
+                    transform="translate(-152.000000, -1139.000000)"
+                    fill="white"
+                  >
+                    <path
+                      d="M175.74,1141 L183,1141 C183.552,1141 184,1140.55 184,1140 C184,1139.45 183.552,1139 183,1139 L173,1139 C172.879,1139 172,1139 172,1140 L172,1150 C172,1150.55 172.448,1151 173,1151 C173.552,1151 174,1150.55 174,1150 L174,1142.36 C178.728,1144.61 182,1149.42 182,1155 C182,1162.73 175.732,1169 168,1169 C160.268,1169 154,1162.73 154,1155 C154,1147.95 159.218,1142.13 166,1141.16 L166,1139.14 C158.109,1140.13 152,1146.84 152,1155 C152,1163.84 159.164,1171 168,1171 C176.836,1171 184,1163.84 184,1155 C184,1148.97 180.664,1143.73 175.74,1141"
+                      id="refresh"
+                      sketch:type="MSShapeGroup"
+                    ></path>
+                  </g>
                 </g>
-              </g>
-            </svg>
+              </svg>
+            </button>
           </div>
         </div>
         <div class="image-gallery">

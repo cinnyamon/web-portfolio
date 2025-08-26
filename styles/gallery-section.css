@@ -49,9 +49,17 @@
   border: 1px solid var(--gray-800);
   border-radius: 1.2rem;
 }
-.refresh-section img {
-  height: 1.25rem;
-  width: 1.25rem;
+
+.refresh-button {
+  background: none;
+  border: none;
+  transition: transform 0.6s forwards cubic-bezier(.45, .05, .55, .95);
+}
+.refresh-button:hover {
+  background: none;
+  transform: translate(0px); /* cancel the default button anim */
+  transform: rotate(-360deg);
+  transition: transform 0.6s cubic-bezier(.45, .05, .55, .95)
 }
 
 .image-gallery {
@@ -78,12 +86,11 @@
   }
 
   .left-side-section {
-    flex-direction: column;
+    align-items: flex-start;
   }
 
   .about-section {
     width: 80%;
-    margin: 0 auto;
     transform: translate(0px, 60px);
     transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
   }

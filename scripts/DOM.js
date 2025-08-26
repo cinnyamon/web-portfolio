@@ -1,4 +1,9 @@
-export const createDOMAndEventHandlers = (fullImageDataObj, mainEl, imageOpened) => {
+const mainEl = document.querySelector('main');
+const refreshBtn = document.querySelector('.refresh-button');
+
+console.log(refreshBtn)
+
+export const createDOMAndEventHandlers = (fullImageDataObj, imageOpened) => {
   // image viewer 
   const fullSizeImgContainer = document.createElement('div');
 
