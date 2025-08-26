@@ -19,21 +19,16 @@
   display: flex;
   flex: 2 1 0;
 
-  max-width: 60%;
   max-height: 80%;
-  width: auto;
-  height: auto;
 } 
 
 .full-size-image {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-
   z-index: 1000;
   display: block;
   cursor: zoom-in;
+
+  max-width: 100%;
+  object-fit: contain;
 }
 .zoomed-in {
   cursor: zoom-out;
@@ -56,13 +51,19 @@
   border-radius: 1rem;
 }
 
+.likes-tags-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .post-tags-div {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   
-  max-height: 100px;
-  min-height: 50px;
+  max-height: 200px;
+  min-height: 100px;
   padding: 0 0 1rem 0;
   overflow-y: scroll;
   mask: linear-gradient(
@@ -121,9 +122,11 @@
     height: calc(100% - (86px + 2rem));
   }
 
+  .full-size-img-wrapper {
+    flex: 1 1 0px;
+  }
+
   .full-size-image {
-    max-width: 100%;
-    max-height: 60%;
     height: auto;
     width: auto;
   }
@@ -132,4 +135,5 @@
     max-width: none;
     max-height: 40%;
   }
+
 }
