@@ -1,0 +1,135 @@
+.full-size-img-container {
+  position: fixed;
+  left: 0;
+
+  display: flex;
+  place-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 0 3rem;
+  width: calc(100% - 6rem); /* padding */
+  height: calc(100% - 86px); /* header */
+
+  background: var(--black-transparent);
+}
+
+.full-size-img-wrapper {
+  position: relative;
+  display: flex;
+  flex: 2 1 0;
+
+  max-width: 60%;
+  max-height: 80%;
+  width: auto;
+  height: auto;
+} 
+
+.full-size-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+
+  z-index: 1000;
+  display: block;
+  cursor: zoom-in;
+}
+.zoomed-in {
+  cursor: zoom-out;
+}
+
+
+.post-info-container {
+  flex: 1 1 0;
+  max-width: 40%;
+  max-height: 80%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow: auto;
+
+  background: var(--gray-900);
+  padding: 2rem;
+  border: 1px solid var(--gray-800);
+  border-radius: 1rem;
+}
+
+.post-tags-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  
+  max-height: 100px;
+  min-height: 50px;
+  padding: 0 0 1rem 0;
+  overflow-y: scroll;
+  mask: linear-gradient(
+    to bottom,
+    var(--white-muted) 70%,
+    transparent);
+}
+
+.post-notes-btn {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: .5rem;
+
+  padding: 0.5rem;
+  border: 1px solid var(--white-muted);
+  border-radius: 0.5rem;
+  background: transparent !important;
+
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+  cursor: pointer;
+}
+.post-notes-btn:hover {
+  background: var(--red-900) !important;
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+}
+.post-notes-btn img {
+  height: 1.2rem;
+}
+.post-notes-btn p {
+  display: flex;
+  font-family: 'Space Mono';
+}
+
+.post-tags-div p {
+  margin: 0;
+  padding: 0.25rem;
+
+  background: var(--red-990);
+  width: fit-content;
+  height: fit-content;
+  border: 1px solid var(--red-700);
+  border-radius: 0.5rem;
+}
+
+
+
+
+
+
+@media screen and (max-width: 769px) {
+  .full-size-img-container {
+    flex-direction: column;
+    padding: 1rem 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - (86px + 2rem));
+  }
+
+  .full-size-image {
+    max-width: 100%;
+    max-height: 60%;
+    height: auto;
+    width: auto;
+  }
+
+  .post-info-container {
+    max-width: none;
+    max-height: 40%;
+  }
+}

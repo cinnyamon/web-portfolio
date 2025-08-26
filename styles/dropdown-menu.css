@@ -1,0 +1,64 @@
+.open-link-bar {
+  background-color: transparent;
+}
+.open-link-bar:hover {
+  background-color: transparent;
+}
+.svg-nonrotated {
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+  transform: rotate(0deg);
+}
+.svg-rotated {
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+  transform: rotate(180deg);
+}
+
+
+
+.dropdown-link-menu {
+  position: absolute;
+  top: 50px;
+  left: auto;
+  opacity: 0;
+  z-index: -1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  height: 0;
+  width: auto;
+  overflow: hidden;
+  visibility: hidden;
+
+  background: var(--gray-800);
+  padding: 0;
+  border: solid 1px var(--gray-700);
+  border-radius: 0.5rem;
+
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+}
+
+.dropdown-show {
+  visibility: visible;
+  height: auto;
+  padding: 1.2rem 0.75rem;
+
+  overflow: visible;
+  opacity: 1;
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+}
+
+@keyframes fadeDown {
+  0% {
+    transform: translateY(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    gap: 1.2rem;
+    height: auto;
+    width: auto;
+    overflow: visible;
+  }
+}

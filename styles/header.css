@@ -1,0 +1,102 @@
+
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  
+  background-color: var(--black-transparent);
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1.5rem;
+}
+
+.header-left {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.header-left a {
+  display: flex;
+  font-family: 'Space Mono';
+  font-weight: 600;
+  font-size: 1.25rem;
+  /* color: var(--white-soft); */
+  /* transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s */
+
+  background: linear-gradient(to right,
+        var(--red-300) 20%,
+        var(--red-700) 30%,
+        var(--red-700) 50%,
+        var(--red-700) 70%,
+        var(--red-300) 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textgradient 5s ease-in-out infinite alternate;
+    transition:
+      color 0.3s ease-in,
+      -webkit-text-fill-color 0.3s ease-in,
+      background-clip 0.3s ease-in,
+      all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+    color: transparent;
+}
+
+.header-left a:hover {
+  color: var(--gray-300);
+  transform: translate(-5px);
+  transition: all cubic-bezier(0.16, 1, 0.5, 1) 0.3s;
+}
+
+.header-mid {
+  display: flex;
+  align-items: center;
+
+  padding: 0.5rem 1rem;
+  background: var(--gray-800);
+  border: solid 1px var(--gray-700);
+  border-radius: 0.5rem;
+  flex-grow: 1;
+  max-width: 25%;
+}
+
+.search-bar {
+  background: var(--gray-800);
+  color: var(--white-muted);
+  border: none;
+  min-width: 0;
+  flex: 1;
+}
+
+.search-bar:focus {
+  outline: none;
+}
+
+.header-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 1.5rem;
+}
+
+.x-logo {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tumblr-logo {
+  width: 1rem;
+  height: 1rem;
+  fill: var(--white-muted);
+}
+
+.pixiv-logo {
+  width: 2.5rem;
+  fill: var(--white-muted);
+}
