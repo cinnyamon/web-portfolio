@@ -1,5 +1,7 @@
 import { key } from "./apiKey.js";
 import { createDOMAndEventHandlers } from "./DOM.js";
+import { openIDB } from "./idb-init.js";
+
 // import mocks from "./mocks.json";
 
 // const mocks = require('./mocks.json')
@@ -166,19 +168,6 @@ export const galleryFetching = () => {
     return { fullImageData, lowResData };
   };
 
-  refreshBtn.addEventListener("click", (e) => {
-    const request = indexedDB.open("ImageDB", 7);
-    request.onsuccess = async () => {
-      const db = request.result;
-      // await insertImages(db);
-
-      // clear db function needed
-      galleryFetching();
-    };
-  });
-
-  const checkBox = document.getElementById("usemocks");
-
   const insertImages = async (db = request.result) => {
     let lowResData = [];
     let fullImageData = [];
@@ -298,6 +287,15 @@ export const galleryFetching = () => {
       };
     });
   };
+
+  refreshBtn.addEventListener("click", (e) => {
+    const request = indexedDB.open("ImageDB", 7);
+    request.onsuccess = async () => {
+      imgContainer.replaceChildren(); // removes all children
+      const db = request.result;
+      await insertImages(db);
+    };
+  });
 };
 
 async function getLastFetchedTime() {
