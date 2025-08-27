@@ -197,6 +197,8 @@ export const galleryFetching = () => {
     .catch((error) => {
       console.error("Failed to open IDB:", error);
     });
+
+  // probably could put a new promise here and return it to the main and then send it towards the search idb in order to check if the idb got populated. ill have to see
 };
 
 async function fetchIDBMetadata() {
