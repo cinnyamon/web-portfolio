@@ -1,4 +1,4 @@
-import { openIDB } from "./idb-init.js";
+import { openIDB } from "./IDBInit.js";
 
 export function searchIDB() {
   const mainEl = document.querySelector("main");

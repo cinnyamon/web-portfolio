@@ -1,5 +1,5 @@
 import { createDOMAndEventHandlers } from "./DOM.js";
-import { openIDB } from "./idb-init.js";
+import { openIDB } from "./IDBInit.js";
 import { fetchImages } from "./fetchScript.js";
 
 // dom stuff
