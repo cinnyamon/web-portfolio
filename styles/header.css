@@ -56,6 +56,8 @@ header {
 .header-mid {
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative;
 
   padding: 0.5rem 1rem;
   background: var(--gray-800);
@@ -75,6 +77,15 @@ header {
 
 .search-bar:focus {
   outline: none;
+}
+
+.search-button {
+  padding: .1rem .3rem;
+}
+
+.search-button:hover {
+  transform: translateY(0);
+  background: var(--gray-600);
 }
 
 .header-right {

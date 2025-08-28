@@ -50,6 +50,11 @@ main {
   margin: 0 2rem;
 }
 
+:where(h1) {
+  margin-block: 0.67em;
+  font-size: 2em;
+}
+
 svg {
   width: 1.25rem;
   height: 1.25rem;
@@ -61,7 +66,7 @@ svg {
   stroke-width: 1px; */
 }
 
-button {
+:where(button) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,7 +82,7 @@ button {
   transition: background 0.3s, transform 0.3s;
 }
 
-button:hover {
+:where(button:hover) {
   transition: background 0.3s, transform 0.3s;
   transform: translateY(-3px);
   background: var(--red-700);
