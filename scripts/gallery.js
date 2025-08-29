@@ -2,10 +2,6 @@ import { createDOMAndEventHandlers } from "./DOM.js";
 import { openIDB } from "./IDBInit.js";
 import { fetchImages } from "./fetchScript.js";
 
-// dom stuff
-const imgContainer = document.querySelector(".image-gallery");
-const refreshBtn = document.querySelector(".refresh-button");
-
 export const galleryFetching = () => {
   openIDB()
     .then((db) => {
@@ -52,145 +48,15 @@ export const galleryFetching = () => {
               return;
             }
             // if no DB images load from tumblr user
-            await insertImages();
+            await insertImages(db);
             return;
           }
           // if its been more than a day -> data is stale so fetch new
-          await insertImages();
+          await insertImages(db);
         } catch (error) {
           console.error("Error with onsuccess", error);
           db.close();
         }
-      };
-
-      refreshBtn.addEventListener("click", (e) => {
-        openIDB().then(async (newDB) => {
-          console.log("hello");
-          imgContainer.replaceChildren(); // removes all children
-          await insertImages(newDB);
-        });
-      });
-
-      const insertImages = async (providedDb = db) => {
-        let lowResData = [];
-        let fullImageData = [];
-        let blogMetadata = [];
-
-        // this is the main logic where i can add backup images in case the fetching fails
-        try {
-          const data = await fetchImages();
-          lowResData = data.lowResData;
-          fullImageData = data.fullImageData;
-          blogMetadata = data.blogMetadata;
-        } catch (error) {
-          console.log("fetching images failed");
-          const mocks = await fetch("./scripts/mocks.json")
-            .then((res) => {
-              return res.json();
-            })
-            .then((data) => {
-              return data;
-            });
-
-          console.log(mocks);
-
-          fullImageData = mocks.fullImageData;
-          lowResData = mocks.lowResData;
-        }
-
-        const transaction = providedDb.transaction(
-          ["lowResImages", "fullImageData"],
-          "readwrite"
-        );
-        // start lowResData transaction
-        const lowResImageStore = transaction.objectStore("lowResImages");
-        // start fullImageDataStore transaction
-        const fullImageDataStore = transaction.objectStore("fullImageData");
-
-        // run a separate transaction for the time because the tx stops early if one of these fuckers complete like lowresimg or fullimgdata...
-        const metaTx = providedDb.transaction("meta", "readwrite");
-        const metaStore = metaTx.objectStore("meta");
-        const lastFetchedPutReq = metaStore.put({
-          key: "lastFetched",
-          time: Date.now(),
-        });
-        const descPutReq = metaStore.put({
-          key: "description",
-          summary: blogMetadata[0],
-        });
-
-        lastFetchedPutReq.onsuccess = () => {
-          console.log("successfully added lastFetched to the metastore");
-        };
-        descPutReq.onsuccess = () => {
-          console.log("successfully added description to the metastore");
-        };
-
-        // loop through all data gathered from fetch
-        for (const dataEntries of lowResData) {
-          // dataEntries.lowReslinks = '';
-          lowResImageStore.add(dataEntries);
-          // handle placing images in page
-          placeImagesInPage(dataEntries);
-        }
-        for (const dataEntries of fullImageData) {
-          // dataEntries.highReslinks = '';
-          fullImageDataStore.add(dataEntries);
-        }
-
-        useAuthorDescription(blogMetadata);
-
-        console.log("fetched images from tumblr", lowResData, fullImageData);
-        providedDb.close();
-      };
-
-      const placeImagesInPage = (entry) => {
-        let imageOpened = false;
-        const imagEl = document.createElement("img");
-
-        imagEl.src = entry.lowReslinks;
-        imagEl.alt = "Couldn't fetch image from Tumblr or Database.";
-        imagEl.classList.add("gallery-lowres-img");
-        imagEl.dataset.id = entry.id;
-        imgContainer.append(imagEl);
-
-        imagEl.addEventListener("click", () => {
-          handleClickingImage(imagEl, imageOpened);
-        });
-      };
-
-      const handleClickingImage = async (imagEl, imageOpened) => {
-        const fullImageDataObj = await fetchImgById(imagEl.dataset.id);
-
-        console.log("fullImageDataObj", fullImageDataObj);
-        // if id's dont match exit early
-        if (imagEl.dataset.id !== fullImageDataObj.id) return;
-
-        // open the full window container
-        if (!imageOpened) {
-          imageOpened = true;
-
-          createDOMAndEventHandlers(fullImageDataObj, imageOpened);
-        }
-      };
-
-      const fetchImgById = async (id) => {
-        const fullImgId = openIDB().then((db) => {
-          return new Promise((resolve, reject) => {
-            const transaction = db.transaction("fullImageData", "readwrite");
-
-            // start highResData transaction
-            const fullImageDataStore = transaction.objectStore("fullImageData");
-            const getRequest = fullImageDataStore.get(id);
-
-            getRequest.onsuccess = () => {
-              console.log(getRequest.result);
-              resolve(getRequest.result);
-              db.close();
-            };
-          });
-        });
-        return fullImgId;
       };
     })
 
@@ -199,6 +65,129 @@ export const galleryFetching = () => {
     });
 
   // probably could put a new promise here and return it to the main and then send it towards the search idb in order to check if the idb got populated. ill have to see
+};
+
+const placeImagesInPage = (entry) => {
+  let imageOpened = false;
+  const imgContainer = document.querySelector(".image-gallery");
+  const imagEl = document.createElement("img");
+
+  imagEl.src = entry.lowReslinks;
+  imagEl.alt = "Couldn't fetch image from Tumblr or Database.";
+  imagEl.classList.add("gallery-lowres-img");
+  imagEl.dataset.id = entry.id;
+  imgContainer.append(imagEl);
+
+  imagEl.addEventListener("click", () => {
+    handleClickingImage(imagEl.dataset.id, imageOpened);
+  });
+};
+
+export const handleClickingImage = async (id, imageOpened) => {
+  const fullImageDataObj = await fetchImgById(id);
+
+  console.log("fullImageDataObj", fullImageDataObj);
+  // if id's dont match exit early
+  if (id !== fullImageDataObj.id) return;
+
+  // open the full window container
+  if (!imageOpened) {
+    imageOpened = true;
+
+    createDOMAndEventHandlers(fullImageDataObj, imageOpened);
+  }
+};
+
+export const fetchImgById = async (id) => {
+  const fullImgId = openIDB().then((db) => {
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("fullImageData", "readwrite");
+
+      // start highResData transaction
+      const fullImageDataStore = transaction.objectStore("fullImageData");
+      const getRequest = fullImageDataStore.get(id);
+
+      getRequest.onsuccess = () => {
+        console.log(getRequest.result);
+        resolve(getRequest.result);
+        db.close();
+      };
+    });
+  });
+  return fullImgId;
+};
+
+export const insertImages = async (providedDb = db) => {
+  let lowResData = [];
+  let fullImageData = [];
+  let blogMetadata = [];
+
+  // this is the main logic where i can add backup images in case the fetching fails
+  try {
+    const data = await fetchImages();
+    lowResData = data.lowResData;
+    fullImageData = data.fullImageData;
+    blogMetadata = data.blogMetadata;
+  } catch (error) {
+    console.log("fetching images failed");
+    const mocks = await fetch("./scripts/mocks.json")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        return data;
+      });
+
+    // console.log(mocks);
+
+    fullImageData = mocks.fullImageData;
+    lowResData = mocks.lowResData;
+  }
+
+  const transaction = providedDb.transaction(
+    ["lowResImages", "fullImageData"],
+    "readwrite"
+  );
+  // start lowResData transaction
+  const lowResImageStore = transaction.objectStore("lowResImages");
+  // start fullImageDataStore transaction
+  const fullImageDataStore = transaction.objectStore("fullImageData");
+
+  // run a separate transaction for the time because the tx stops early if one of these fuckers complete like lowresimg or fullimgdata...
+  const metaTx = providedDb.transaction("meta", "readwrite");
+  const metaStore = metaTx.objectStore("meta");
+  const lastFetchedPutReq = metaStore.put({
+    key: "lastFetched",
+    time: Date.now(),
+  });
+  const descPutReq = metaStore.put({
+    key: "description",
+    summary: blogMetadata[0],
+  });
+
+  lastFetchedPutReq.onsuccess = () => {
+    console.log("successfully added lastFetched to the metastore");
+  };
+  descPutReq.onsuccess = () => {
+    console.log("successfully added description to the metastore");
+  };
+
+  // loop through all data gathered from fetch
+  for (const dataEntries of lowResData) {
+    // dataEntries.lowReslinks = '';
+    lowResImageStore.add(dataEntries);
+    // handle placing images in page
+    placeImagesInPage(dataEntries);
+  }
+  for (const dataEntries of fullImageData) {
+    // dataEntries.highReslinks = '';
+    fullImageDataStore.add(dataEntries);
+  }
+
+  useAuthorDescription(blogMetadata);
+
+  console.log("fetched images from tumblr", lowResData, fullImageData);
+  providedDb.close();
 };
 
 async function fetchIDBMetadata() {

@@ -74,7 +74,7 @@ svg {
 
   border: none;
   border-radius: 0.25rem;
-  background: var(--gray-750);
+  background: var(--gray-800);
   color: var(--white-soft);
   border: solid 1px var(--gray-700);
   cursor: pointer;
@@ -89,7 +89,6 @@ svg {
 }
 
 img {
-  /* height: 180px; */
   width: auto;
 }
 
@@ -101,6 +100,23 @@ a {
 p, h1, h2, h3, h4 {
   margin: 0;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+
+  padding: 1.5rem 1.5rem;
+  height: fit-content;
+
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 1.2rem;
+}
+
+
+
 
 @keyframes textgradient {
   0% {

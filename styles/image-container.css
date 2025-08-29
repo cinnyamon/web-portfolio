@@ -40,15 +40,25 @@
   max-width: 40%;
   max-height: 80%;
 
-  display: flex;
-  flex-direction: column;
   gap: 1.5rem;
   overflow: auto;
+  position: relative;
+}
 
-  background: var(--gray-900);
-  padding: 2rem;
-  border: 1px solid var(--gray-800);
-  border-radius: 1rem;
+.post-close-btn {
+  display: flex;
+  width: fit-content;
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+
+  padding: .25rem;
+}
+
+.x-button-img {
+  height: 1.75rem;
+  width: 1.75rem;
+  stroke-width: 0.5px;
 }
 
 .likes-tags-container {

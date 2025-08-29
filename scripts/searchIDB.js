@@ -1,3 +1,4 @@
+import { handleClickingImage } from "./gallery.js";
 import { openIDB } from "./IDBInit.js";
 
 export function searchIDB() {
@@ -15,10 +16,12 @@ export function searchIDB() {
 
   searchBtn.addEventListener("click", () => {
     searchResultBox.replaceChildren();
+    searchResultBox.classList.add("result-box-shown");
     handleIDBSearch(searchResultBox, input);
   });
   searchBtn.addEventListener("touchend", () => {
     searchResultBox.replaceChildren();
+    searchResultBox.classList.add("result-box-shown");
     handleIDBSearch(searchResultBox, input);
   });
 
@@ -64,12 +67,32 @@ const handleIDBSearch = (searchResultBox, input) => {
         resultImg.src = cursor.value.highReslinks;
         resultImg.classList.add("search-result-img");
         resultImg.setAttribute("data-high-res-img-id", cursor.value.id);
-        resultP.textContent = cursor.value.title;
+        resultP.textContent = "[ " + cursor.value.title + " ]";
         resultP.classList.add("search-result-p");
         resultContent.classList.add("search-result-content");
+        resultContent.setAttribute("data-high-res-img-id", cursor.value.id);
 
         resultContent.append(resultImg, resultP);
         searchResultBox.append(resultContent, hr);
+
+        resultContent.addEventListener("click", (e) => {
+          const fullSizeImgContainer = document.querySelector(
+            ".full-size-img-container"
+          );
+
+          if (!fullSizeImgContainer) {
+            const imgId = resultContent.getAttribute("data-high-res-img-id");
+            let imageOpened = false;
+
+            handleClickingImage(imgId, imageOpened);
+          } else {
+            fullSizeImgContainer.remove();
+            const imgId = resultContent.getAttribute("data-high-res-img-id");
+            let imageOpened = false;
+
+            handleClickingImage(imgId, imageOpened);
+          }
+        });
       }
       cursor.continue();
     };
